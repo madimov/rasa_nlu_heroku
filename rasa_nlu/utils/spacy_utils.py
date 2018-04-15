@@ -17,6 +17,8 @@ from rasa_nlu.config import RasaNLUConfig
 from rasa_nlu.training_data import Message
 from rasa_nlu.training_data import TrainingData
 
+import en_core_web_sm
+
 logger = logging.getLogger(__name__)
 
 if typing.TYPE_CHECKING:
@@ -50,7 +52,8 @@ class SpacyNLP(Component):
             spacy_model_name = config["language"]
         logger.info("Trying to load spacy model with "
                     "name '{}'".format(spacy_model_name))
-        nlp = spacy.load(spacy_model_name, parser=False)
+        # nlp = spacy.load(spacy_model_name, parser=False)
+        nlp = en_core_web_sm.load()
         cls.ensure_proper_language_model(nlp)
         return SpacyNLP(nlp, config["language"], spacy_model_name)
 
@@ -101,7 +104,8 @@ class SpacyNLP(Component):
         if cached_component:
             return cached_component
 
-        nlp = spacy.load(model_metadata.get("spacy_model_name"), parser=False)
+        # nlp = spacy.load(model_metadata.get("spacy_model_name"), parser=False)
+        nlp = en_core_web_sm.load()
         cls.ensure_proper_language_model(nlp)
         return SpacyNLP(nlp, model_metadata.get("language"), model_metadata.get("spacy_model_name"))
 
